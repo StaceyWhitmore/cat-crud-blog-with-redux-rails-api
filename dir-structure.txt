@@ -1,0 +1,23 @@
+├── package.json
+├── src
+│   ├── actions
+│   ├── components
+│   │       ├---cats
+│   │       │      ├── CatList.js
+│   │       │      └── catPage.js
+│   │       ├--common
+│   │       │      └── Header.js
+│   │       └──home
+│   │             └──
+│   │
+|   |
+│   ├── index.html
+│   ├── index.js
+│   ├── reducers
+│   └── store
+├── tools
+└── webpack.config.js
+
+
+
+├ ─ ─ ├
