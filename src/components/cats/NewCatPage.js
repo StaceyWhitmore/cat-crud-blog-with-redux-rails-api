@@ -96,7 +96,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-function mapDispatchToProps(dispatch)
+function mapDispatchToProps(dispatch) {
   //returns 'courseActions' instead of 'catActions'
   return {
     actions: bindActionCreators(courseActions, dispatch)

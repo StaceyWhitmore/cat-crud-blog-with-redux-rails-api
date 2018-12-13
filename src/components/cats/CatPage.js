@@ -22,30 +22,9 @@ class CatPage extends React.Component {
     this.toggleEdit       = this.toggleEdit.bind(this)
     this.saveCat          = this.saveCat.bind(this)
     this.deleteCat        = this.deleteCat.bind(this)
-  }
+    this.redirect = this.redirect.bind(this);
 
-  updateCatState(event) {
-    const field = event.target.name
-    const cat = this.state.cat
-    cat[field] = event.target.value
-    return this.setState({cat: cat})
   }
-
-//This f(n) responds to the user checking or unchecking hobby checkboxes on the form
-updateCatHobbies(event) {
-  const cat = this.state.cat
-  const hobbyId = event.target.value //target is the src of the event. It's value of this src element becomes the hobbyId
-  const hobby = this.state.checkBoxHobbies.filter(hobby => hobby.id == hobbyId)[0]//hobby[0] = hooby.id that matches the target of the event
-  const checked = !hobby.checked //toggle .checked attr and store it in 'checked' var...
-  hobby['checked'] = !hobby.checked//which becomes the key for accessing this val in the hobby[] array
-  if (checked) { //if checked is true ...
-    cat.hobby_ids.push(hobby.id)//..then add this hobby id to the hobby_ids[] array
-  } else { //..otherwise (if it's UNchecked),
-    //splice() mutates the original hobby_ids and returns every thing from hobby.id's index up...
-    cat.hobby_ids.splice(cat.hobby_ids.indexOf(hobby.id))//what's left in hobby_ids[] are just those items below hobby.id (thanks a lot splice())
-  }
-  this.setState({cat: cat}) //last order of business
-}
 
   //this f(n) immediately invoked Every time a component's props are updated by a
   //re-invocation of the mapStateToProps() f(n)
@@ -64,14 +43,44 @@ updateCatHobbies(event) {
     this.setState({isEditing: !this.state.isEditing})
   }
 
+  //This f(n) responds to the user checking or unchecking hobby checkboxes on the form
+  updateCatHobbies(event) {
+    const cat = this.state.cat
+    const hobbyId = event.target.value //target is the src of the event. It's value of this src element becomes the hobbyId
+    const hobby = this.state.checkBoxHobbies.filter(hobby => hobby.id == hobbyId)[0]//hobby[0] = hooby.id that matches the target of the event
+    const checked = !hobby.checked //toggle .checked attr and store it in 'checked' var...
+    hobby['checked'] = !hobby.checked//which becomes the key for accessing this val in the hobby[] array
+
+    if (checked) { //if checked is true ...
+      cat.hobby_ids.push(hobby.id)//..then add this hobby id to the hobby_ids[] array
+    } else { //..otherwise (if it's UNchecked),
+      //splice() mutates the original hobby_ids and returns every thing from hobby.id's index up...
+      cat.hobby_ids.splice(cat.hobby_ids.indexOf(hobby.id))//what's left in hobby_ids[] are just those items below hobby.id (thanks a lot splice())
+    }
+    this.setState({cat: cat}) //last order of business
+  }//close updateCatHobbies
+
+  updateCatState(event) {
+    const field = event.target.name
+    const cat = this.state.cat
+    cat[field] = event.target.value
+    return this.setState({cat: cat})
+  }
+
+
   //The f(n) handles the submission of the CatForm
   saveCat(event) {
     event.preventDefault()
+    this.setState({saving: true});
     this.props.actions.updateCat(this.state.cat)
   }
 
   deleteCat(event) {
     this.props.actions.deleteCat(this.state.cat)
+  }
+
+  redirect() {
+    browserHistory.push('/cats');
   }
 
   render() {
@@ -119,7 +128,7 @@ updateCatHobbies(event) {
 //a halper f(n) to extract the hobbies associated with hobby_id nums in hobby_ids[] array
 function collectCatHobbies(hobbies, cat) {
   let selected = hobbies.map( hobby => {
-    if (cat.hobby_ids.filter(hobby_id => hobbyId == hobby.id).length > 0) {
+    if (cat.hobby_ids.filter(hobbyId => hobbyId == hobby.id).length > 0) {
       return hobby
     }
   })
@@ -137,13 +146,18 @@ function hobbiesForCheckBoxes(hobbies, cat=null) {
   })
 }
 
+function getCatById(cats, id) {
+  let cat = cats.find(cat => cat.id = id)
+  return Object.assign({}, cat)//create a new Object and assign it's value to an empty {} + the matching 'cat'
+}
+
 
 
 function mapStateToProps(state, ownProps) {
   const stateHobbies = Object.assign([], state.hobbies)
-  let checBoxHobbies = []
+  let checkBoxHobbies = []
   let catHobbies = []
-  let cat = {name: '', breed: '', weight: '', temperment: '', hobby_ids: []}
+  let cat = {name: '', breed: '', weight: '', temperament: '', hobby_ids: []}
   const catId = ownProps.params.id
 
   if (catId && state.cats.length > 0 && state.hobbies.length > 0) {
@@ -155,7 +169,7 @@ function mapStateToProps(state, ownProps) {
     checkBoxHobbies = hobbiesForCheckBoxes(stateHobbies)
   }
 }
-  return {cat: cat, checBoxHobbies:checkBoxHobbies, catHobbies: catHobbies, }
+  return {cat: cat, checkBoxHobbies:checkBoxHobbies, catHobbies: catHobbies }
   /*
   if (state.cats.length > 0) { //if the aSync call has returned and the API is ready...
     //...then, find the cat with the associated id
@@ -170,7 +184,7 @@ function mapStateToProps(state, ownProps) {
 Each action creator f(n) in a call to .dispatch().
 This produces a new object with keys that point to our actions, but, since Each
 action creator was wrapped in .dispatch(), we can now invoke actions directly.*/
-mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(catActions, dispatch)
   };
@@ -186,3 +200,10 @@ CatPage.propTypes = {
 
 //connect() subscribes <CatPage> to the store & hooks into the mapStateToProps() f(n)
 export default connect(mapStateToProps, mapDispatchToProps)(CatPage)
+
+// connect:
+// + will invoke mapDispatchToProps, with an argument of the store's dispatch function
+// + it has access to the store, b/c you passed store in via the provider
+// + bindActionCreators will take your collection of action creator functions
+// + iterate over it, wrap each AC function in store.dispatch(AC function)
+// + make them available to your component as this.props.actions = {name of an action: store.dispatch(ac function)}

@@ -1,6 +1,7 @@
 //handles any and all cat related actions
-import * as types from './actions/actionTypes'//import all the constants into variable:'types'
+import * as types from '../actions/actionTypes'//import all the constants into variable:'types'
 import initialState from './initialState'
+import { browserHistory } from 'react-router'
 
 //remember to tell the app to "redirect" to that new cat's show page.
 export default function catReducer(state=initialState.cats, action) {
@@ -20,7 +21,7 @@ export default function catReducer(state=initialState.cats, action) {
       })
       newState.splice(indexOfCatToDelete, 1)//...removed
       browserHistory.push('/cats')
-      return newState//...and returns this new state with cat (corresponding to action.cat.id) removed 
+      return newState//...and returns this new state with cat (corresponding to action.cat.id) removed
     }
     case types.UPDATE_CAT_SUCCESS:
       return [

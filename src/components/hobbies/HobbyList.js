@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
 //import PropTypes from 'prop-types'
+//import HobbyListRow from './HobbyListRow';
+
 
 const HobbyList = ({hobbies}) => {
   return (
@@ -7,7 +9,7 @@ const HobbyList = ({hobbies}) => {
     <h3>Hobbies</h3>
     <ul>
       {
-        hobbies.map( () =>
+        hobbies.map( hobby =>
           <li key={hobby.id}>{hobby.name}</li>
       )
       }

@@ -1,5 +1,5 @@
 import * as types from './actionTypes'
-import hobbyApi from '../api/HobbyApi'
+import hobbyApi from '../api/hobbyApi'
 
 export function loadHobbiesSuccess(hobbies) {
   return { type: types.LOAD_HOBBIES_SUCCESS, hobbies }

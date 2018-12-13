@@ -41,7 +41,7 @@ export function updateCat(cat) {
   }
 }
 
-updateCatSuccess(cat) {
+export function updateCatSuccess(cat) {
   return { type: types.UPDATE_CAT_SUCCESS, cat}
 }
 
@@ -70,7 +70,7 @@ export function deleteCatSuccess(cat) {
 export function deleteCat(cat) {
   return function (dispatch) {
     return catApi.deleteCat(cat).then( () => {
-      console.log(`Deleted ${cat.id}`)
+      console.log(`Deleted ${cat.id}`) //Unexpected console statement  no-console
       dispatch(deleteCatSuccess(cat))
       return;
     }).catch( error => {

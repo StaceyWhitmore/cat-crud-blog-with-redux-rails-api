@@ -31,7 +31,7 @@ class CatForm extends React.Component {
           value={this.prop.cat.name}
           onChange={this.props.onChange} />
 
-        { boxes }
+        {boxes}
 
         <TextInput
           name="breed"
@@ -68,7 +68,8 @@ CatForm.propTypes = {
   hobbies: React.PropTypes.array.isRequired,
   onSave: React.PropTypes.func.isRequired,
   onChange: React.PropTypes.func.isRequired,
-  onHobbyChange: React.PropTypes.func.isRequired
+  onHobbyChange: React.PropTypes.func.isRequired,
+  saving: React.PropTypes.bool
 }
 
 export default CatForm
