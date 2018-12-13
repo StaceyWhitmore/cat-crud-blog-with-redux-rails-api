@@ -17,11 +17,11 @@ class CatPage extends React.Component {
       checkBoxHobbies: this.props.checkBoxHobbies,
       isEditing: false
     }
-    this.updateCatState = this.updateCatState.bind(this)
+    this.saveCat          = this.saveCat.bind(this)
+    this.updateCatState   = this.updateCatState.bind(this)
     this.updateCatHobbies = this.updateCatHobbies.bind(this)
-    this.saveCat = this.saveCat.bind(this)
-    this.toggleEdit = this.toggleEdit.bind(this)
-
+    this.toggleEdit       = this.toggleEdit.bind(this)
+    this.deleteCat        = this.deleteCat.bind(this)
   }
 
   updateCatState(event) {
