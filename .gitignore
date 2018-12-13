@@ -1,5 +1,6 @@
 /node_modules/
 /html-templates
+/catbook-api-master
 npm-debug.log
 .babelrc
 .eslintrc
