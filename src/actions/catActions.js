@@ -62,3 +62,19 @@ export function createCat(cat) {
     })
   }
 }
+
+export function deleteCatSuccess(cat) {
+  return { type: types.DELETE_CAT_SUCCESS, cat }
+}
+
+export function deleteCat(cat) {
+  return function (dispatch) {
+    return catApi.deleteCat(cat).then( () => {
+      console.log(`Deleted ${cat.id}`)
+      dispatch(deleteCatSuccess(cat))
+      return;
+    }).catch( error => {
+      throw(error)
+    })
+  }
+}

@@ -26,7 +26,8 @@ class CatApi {
 
   /*'POST' call */
   static createCat(cat) {
-    const request = new Request('http://localhost:5000/api/v1/cats/', {
+    const request = new Request('http://localhost:5000/api/v1/cats/',
+    {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json'
@@ -37,9 +38,22 @@ class CatApi {
     return fetch(request).then( response => {
       return response.json()
     }).catch( error => {
-      throw(error)
+      return error
     })
   }//close createCat()
+
+  static deleteCat(cat) {
+    const request = new Request(`http://localhost:5000/api/v1/cats/${cat.id}`,
+    {
+      method: 'DELETE'
+    })
+
+    return fetch(request).then(response => {
+      return response.json()
+    }).catch(error => {
+       return error
+    })
+  }
 
 }//close class: CatApi
 

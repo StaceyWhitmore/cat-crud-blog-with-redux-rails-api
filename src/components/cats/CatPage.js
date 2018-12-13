@@ -17,10 +17,10 @@ class CatPage extends React.Component {
       checkBoxHobbies: this.props.checkBoxHobbies,
       isEditing: false
     }
-    this.saveCat          = this.saveCat.bind(this)
     this.updateCatState   = this.updateCatState.bind(this)
     this.updateCatHobbies = this.updateCatHobbies.bind(this)
     this.toggleEdit       = this.toggleEdit.bind(this)
+    this.saveCat          = this.saveCat.bind(this)
     this.deleteCat        = this.deleteCat.bind(this)
   }
 
@@ -47,12 +47,6 @@ updateCatHobbies(event) {
   this.setState({cat: cat}) //last order of business
 }
 
-//The f(n) handles the submission of the CatForm
-saveCat(event) {
-  event.preventDefault()
-  this.props.actions.updateCat(this.state.cat)
-}
-
   //this f(n) immediately invoked Every time a component's props are updated by a
   //re-invocation of the mapStateToProps() f(n)
   componentWillReceiveProps(nextProps) {
@@ -68,6 +62,16 @@ saveCat(event) {
 
   toggleEdit() {
     this.setState({isEditing: !this.state.isEditing})
+  }
+
+  //The f(n) handles the submission of the CatForm
+  saveCat(event) {
+    event.preventDefault()
+    this.props.actions.updateCat(this.state.cat)
+  }
+
+  deleteCat(event) {
+    this.props.actions.deleteCat(this.state.cat)
   }
 
   render() {
@@ -98,6 +102,12 @@ saveCat(event) {
         className="btn btn-default">
           edit
         </button>
+        <button
+         onClick={this.deleteCat}
+         className="btn btn-default"
+         name="button">
+        delete
+       </button>
       </div>
     );
   }
