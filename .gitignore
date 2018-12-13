@@ -1,2 +1,5 @@
 /node_modules/
+/html-templates
 npm-debug.log
+.babelrc
+.eslintrc

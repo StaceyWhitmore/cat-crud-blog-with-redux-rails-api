@@ -8,12 +8,16 @@ import * as catActions from '../../actions/catActions'//import all actions into 
 class CatsPage extends React.Component { //Not Cat(s)Page
 
   render() {
-    //const cats = this.props.cats
+    const cats = this.props.cats //for DRY purposes
     return (
       <div className="col-md-12">
-        <h1>Cats</h1>
+        <h1>Cats
+          <Link to={'/cats/new'} className="btn btn-primary">
+            + a Cat
+            </Link>
+        </h1>
         <div className="col-md-4">
-          <CatList cats={this.props.cats} />
+          <CatList cats={cats} />
         </div>
         <div className="col-md-8">
         {this.props.children}
